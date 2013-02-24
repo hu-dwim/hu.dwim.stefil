@@ -8,6 +8,10 @@
 
 (def project :hu.dwim.stefil)
 
+;; some existing test protocols
+;; http://testanything.org/
+;; https://launchpad.net/subunit
+
 (def book user-guide (:title "User guide")
   (chapter (:title "Introduction")
     (paragraph ()
@@ -35,6 +39,8 @@
     (paragraph ()
       "Its fixture implementation allows invoking specific parts of the test suite without sacrificing performance"))
   (chapter (:title "Tips and Tricks")
+    (paragraph ()
+      "Assertion primitives are prepared to be run without a proper test environment, so you can copy-paste forms from your tests to the REPL.")
     (chapter (:title "Adding a new test interactively in Slime")
       (paragraph ()
         "When interactively defining a new test \(e.g. with Slime using C-c C-c), the test will be put in the current suite (see IN-SUITE, which is very much like IN-PACKAGE, but for test suites). However, if a test has already been defined with the same name, then the newly (re)defined test will stick to its original suite, regardless of the current suite at the time of redefinition.")

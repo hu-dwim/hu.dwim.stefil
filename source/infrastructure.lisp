@@ -25,7 +25,7 @@
 (defvar *test-run-standard-output* '*standard-output*
   "*STANDARD-OUTPUT* is bound to (eval *test-run-standard-output*) at the toplevel entry point to any test.")
 
-(defvar *tests* (make-hash-table :test 'eql)) ; this is not thread-safe, but...
+(defvar *tests* (make-hash-table :test 'eql)) ; FIXME this is not thread-safe
 
 (defmacro without-debugging (&body body)
   `(let* ((*debug-on-unexpected-error* nil)
@@ -409,6 +409,7 @@
        ,@body
        (= ,old-failure-count (length (failure-descriptions-of *global-context*))))))
 
+;; TODO rename these with-known-failures?
 (defmacro with-expected-failures* (&whole whole condition &body body)
   "Any failure inside the dynamic extent of this block is registered as an expected failure when CONDITION evaluates to true."
   (with-unique-names (with-expected-failures-block starting-failure-count)
