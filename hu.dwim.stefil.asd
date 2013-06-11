@@ -18,5 +18,5 @@
                              (:file "test" :depends-on ("infrastructure"))
                              (:file "suite" :depends-on ("infrastructure" "test"))))))
 
-(defmethod perform :after ((o develop-op) (c (eql (find-system :hu.dwim.stefil))))
+(defmethod perform :after ((o hu.dwim.asdf:develop-op) (c (eql (find-system :hu.dwim.stefil))))
   (asdf:load-system :hu.dwim.stefil+swank))
