@@ -84,10 +84,10 @@
                 (finishes 42)
                 (ignore-errors                               ; fails
                   (finishes (error "foo")))
-                (signals serious-condition (error "foo"))
+                (signals (or error serious-condition) (error "foo"))
                 (signals serious-condition 'not)             ; fails
                 (not-signals warning (warn "foo"))           ; fails
-                (not-signals warning 'not)))
+                (not-signals (or warning serious-condition) 'not)))
     (progn
       ;; this uglyness here is due to testing the test framework which is inherently
       ;; not nestable, so we need to backup and restore some state
