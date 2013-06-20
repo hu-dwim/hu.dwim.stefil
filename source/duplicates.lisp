@@ -179,3 +179,10 @@
           (import symbol target-package)
           (incf count))))
     count))
+
+(defun quoted-form? (thing)
+  (and (consp thing)
+       (eq (car thing) 'quote)
+       (progn
+         (assert (length= 2 thing) () "Illegal QUOTE form ~S" thing)
+         t)))

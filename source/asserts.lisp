@@ -165,8 +165,8 @@
 
 (defmacro signals (&whole whole what &body body)
   (let* ((condition-type what))
-    (unless (symbolp condition-type)
-      (error "SIGNALS expects a symbol as condition-type! (Is there a superfulous quote at ~S?)" condition-type))
+    (when (quoted-form? condition-type)
+      (error "~S expects an unquoted condition-type, probably there's a superfulous quote at ~S." 'signals condition-type))
     `(progn
       (register-assertion)
       (block test-block
@@ -182,8 +182,8 @@
 
 (defmacro not-signals (&whole whole what &body body)
   (let* ((condition-type what))
-    (unless (symbolp condition-type)
-      (error "SIGNALS expects a symbol as condition-type! (Is there a superfulous quote at ~S?)" condition-type))
+    (when (quoted-form? condition-type)
+      (error "~S expects an unquoted condition-type, probably there's a superfulous quote at ~S." 'not-signals condition-type))
     `(progn
        (register-assertion)
        (block test-block
