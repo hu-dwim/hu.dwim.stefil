@@ -128,8 +128,7 @@
    (format-arguments :initform nil :accessor format-arguments-of :initarg :format-arguments)))
 
 (defmethod describe-object ((self failed-assertion) stream)
-  (let ((*print-circle* nil))
-    (apply #'format stream (format-control-of self) (format-arguments-of self))))
+  (apply #'format stream (format-control-of self) (format-arguments-of self)))
 
 (defprint-object (self failed-assertion :identity nil :type nil)
   (format t "failure ~S backtrace: ~{~A~^,~}"
@@ -150,15 +149,13 @@
   ())
 
 (defmethod describe-object ((self missing-condition) stream)
-  (let ((*print-circle* nil))
-    (format stream "~S failed to signal condition ~S" (form-of self) (condition-of self))))
+  (format stream "~S failed to signal condition ~S" (form-of self) (condition-of self)))
 
 (defclass extra-condition (failure-description/condition)
   ())
 
 (defmethod describe-object ((self extra-condition) stream)
-  (let ((*print-circle* nil))
-    (format stream "~S signaled an unwanted condition ~S" (form-of self) (condition-of self))))
+  (format stream "~S signaled an unwanted condition ~S" (form-of self) (condition-of self)))
 
 #+nil
 (hu.dwim.defclass-star:defclass* unexpected-error (failure-description)
