@@ -50,7 +50,7 @@
             (continue))))
        (serious-condition
         (lambda (c)
-          (record-unexpected-error c)
+          (record/unexpected-error c)
           (return-from call-with-test-handlers))))
     (funcall function)))
 

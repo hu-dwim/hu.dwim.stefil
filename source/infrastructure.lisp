@@ -414,11 +414,12 @@
             (,starting-failure-count (length (failure-descriptions-of *global-context*))))
        (block ,with-expected-failures-block
          (restart-case
-             (handler-bind ((serious-condition
-                             ;; TODO comment on why it's needed here...
-                             (lambda (error)
-                               (record-unexpected-error error)
-                               (return-from ,with-expected-failures-block (values)))))
+             (handler-bind
+                 ((serious-condition
+                   ;; also need to catch unexpected errors (as opposed to just dealing with failed assertions)
+                   (lambda (error)
+                     (record/unexpected-error error)
+                     (return-from ,with-expected-failures-block (values)))))
                (multiple-value-prog1
                    (progn ,@body)
                  (unless (< ,starting-failure-count (length (failure-descriptions-of *global-context*)))
