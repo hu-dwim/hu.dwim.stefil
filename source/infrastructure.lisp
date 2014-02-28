@@ -136,6 +136,9 @@
           (mapcar (compose #'name-of #'test-of)
                   (test-context-backtrace-of self))))
 
+(defclass succeeded-assertion ()
+  ((form :accessor form-of :initarg :form)))
+
 #+nil
 (hu.dwim.defclass-star:defclass* failure-description/condition (failure-description)
   ((form)
@@ -240,11 +243,13 @@
 
 (define-dynamic-context global-context
   ((failure-descriptions :initform (make-array 8 :adjustable t :fill-pointer 0) :accessor failure-descriptions-of :initarg :failure-descriptions)
+   (success-descriptions :initform (make-array 8 :adjustable t :fill-pointer 0) :accessor success-descriptions-of :initarg :success-descriptions)
    (assertion-count :initform 0 :accessor assertion-count-of :initarg :assertion-count)
    (progress-char-count :initform 0 :accessor progress-char-count-of :initarg :progress-char-count)
    (print-test-run-progress-p :initform *print-test-run-progress* :accessor print-test-run-progress-p :initarg :print-test-run-progress-p :type boolean)
    (debug-on-unexpected-error-p :initform *debug-on-unexpected-error* :accessor debug-on-unexpected-error-p :initarg :debug-on-unexpected-error-p :type boolean)
    (debug-on-assertion-failure-p :initform *debug-on-assertion-failure* :accessor debug-on-assertion-failure-p :initarg :debug-on-assertion-failure-p :type boolean)
+   (record-sucess-descriptions-p :initform nil :accessor record-sucess-descriptions-p :initarg :record-sucess-descriptions-p :type boolean)
    (toplevel-context :initform nil :accessor toplevel-context-of :initarg :toplevel-context)
    (current-test :initform nil :accessor current-test-of :initarg :current-test)
    (run-tests :initform (make-hash-table) :accessor run-tests-of :initarg :run-tests :documentation "test -> context mapping")
