@@ -228,19 +228,22 @@
 ;;; the real thing
 
 #+nil
-(define-dynamic-context* global-context
+(hu.dwim.util:define-dynamic-context* global-context
   ((failure-descriptions (make-array 8 :adjustable t :fill-pointer 0))
+   (success-descriptions (make-array 8 :adjustable t :fill-pointer 0))
    (assertion-count 0)
    (progress-char-count 0)
    (print-test-run-progress-p *print-test-run-progress* :type boolean)
    (debug-on-unexpected-error-p *debug-on-unexpected-error* :type boolean)
    (debug-on-assertion-failure-p *debug-on-assertion-failure* :type boolean)
+   (record-success-descriptions-p nil :type boolean)
    (toplevel-context nil)
    (current-test nil)
    (run-tests (make-hash-table) :documentation "test -> context mapping")
    (run-fixtures (make-hash-table))
    (test-lambdas (make-hash-table) :documentation "test -> compiled test lambda mapping for this test run")))
 
+;; inline expansion of the above to lower dependencies
 (define-dynamic-context global-context
   ((failure-descriptions :initform (make-array 8 :adjustable t :fill-pointer 0) :accessor failure-descriptions-of :initarg :failure-descriptions)
    (success-descriptions :initform (make-array 8 :adjustable t :fill-pointer 0) :accessor success-descriptions-of :initarg :success-descriptions)
@@ -249,7 +252,7 @@
    (print-test-run-progress-p :initform *print-test-run-progress* :accessor print-test-run-progress-p :initarg :print-test-run-progress-p :type boolean)
    (debug-on-unexpected-error-p :initform *debug-on-unexpected-error* :accessor debug-on-unexpected-error-p :initarg :debug-on-unexpected-error-p :type boolean)
    (debug-on-assertion-failure-p :initform *debug-on-assertion-failure* :accessor debug-on-assertion-failure-p :initarg :debug-on-assertion-failure-p :type boolean)
-   (record-sucess-descriptions-p :initform nil :accessor record-sucess-descriptions-p :initarg :record-sucess-descriptions-p :type boolean)
+   (record-success-descriptions-p :initform nil :accessor record-success-descriptions-p :initarg :record-success-descriptions-p :type boolean)
    (toplevel-context :initform nil :accessor toplevel-context-of :initarg :toplevel-context)
    (current-test :initform nil :accessor current-test-of :initarg :current-test)
    (run-tests :initform (make-hash-table) :accessor run-tests-of :initarg :run-tests :documentation "test -> context mapping")
