@@ -102,7 +102,8 @@
 
 (defun record/assertion-was-successful (form)
   (write-progress-char #\.)
-  (when (record-success-descriptions-p *global-context*)
+  (when (and (has-global-context)
+             (record-success-descriptions-p *global-context*))
     (let ((description (make-instance 'succeeded-assertion :form form)))
       (vector-push-extend description (success-descriptions-of *global-context*)))))
 
