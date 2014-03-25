@@ -81,7 +81,7 @@
              (values '() input-form "Expression ~A evaluated to false." (list `(quote ,input-form))))))))
 
 (defun write-progress-char (char)
-  (let* ((global-context (when (boundp '*global-context*)
+  (let* ((global-context (when (has-global-context)
                            *global-context*)))
     (when (and global-context
                (print-test-run-progress-p global-context))
@@ -97,7 +97,7 @@
       (write-char char *debug-io*))))
 
 (defun record/assertion-begins ()
-  (when (boundp '*global-context*)
+  (when (has-global-context)
     (incf (assertion-count-of *global-context*))))
 
 (defun record/assertion-was-successful (form)

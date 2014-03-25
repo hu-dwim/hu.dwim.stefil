@@ -415,6 +415,7 @@
        (= ,old-failure-count (length (failure-descriptions-of *global-context*))))))
 
 ;; TODO rename these with-known-failures?
+;; TODO make sure it works from the repl without a bound *global-context*? should it be a NOOP then?
 (defmacro with-expected-failures* (&whole whole condition &body body)
   "Any failure inside the dynamic extent of this block is registered as an expected failure when CONDITION evaluates to true."
   (with-unique-names (with-expected-failures-block starting-failure-count)
@@ -426,6 +427,7 @@
                  ((serious-condition
                    ;; also need to catch unexpected errors (as opposed to just dealing with failed assertions)
                    (lambda (error)
+                     ;; TODO maybe expected errors should not try to enter the debugger?
                      (record/unexpected-error error)
                      (return-from ,with-expected-failures-block (values)))))
                (multiple-value-prog1
