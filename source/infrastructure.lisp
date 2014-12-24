@@ -344,16 +344,6 @@
                (funcall 'call-with-sldb-quit-restart #',with-toplevel-restarts/body (find-restart 'abort-testing))
                (,with-toplevel-restarts/body)))))))
 
-(defun test-was-run-p (test)
-  (declare (type testable test))
-  (and (gethash test (run-tests-of *global-context*))
-       (not (eq (current-test-of *global-context*) test))))
-
-(defun register-test-being-run (test)
-  (declare (type testable test))
-  (setf (gethash test (run-tests-of *global-context*)) (current-context))
-  (setf (current-test-of *global-context*) test))
-
 #+nil
 (define-dynamic-context* context
   ((test)
@@ -377,6 +367,16 @@
                       (setf result (substitute (cdr arg-cell) (car arg-cell) result :test #'eq)))
                     (test-arguments-of self))
             result)))
+
+(defun test-was-run-p (test)
+  (declare (type testable test))
+  (and (gethash test (run-tests-of *global-context*))
+       (not (eq (current-test-of *global-context*) test))))
+
+(defun register-test-being-run (test)
+  (declare (type testable test))
+  (setf (gethash test (run-tests-of *global-context*)) (current-context))
+  (setf (current-test-of *global-context*) test))
 
 (defgeneric real-time-spent-in-seconds (context)
   (:method ((self context))
