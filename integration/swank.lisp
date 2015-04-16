@@ -62,6 +62,9 @@
       (when test
         (values test t)))))
 
+;; as of this writing the official slime does not support inspector lookup hooks.
+;; see patch "slime-inspect got a :mode argument that controls its behavior."
+;; in the branch: https://github.com/attila-lendvai/slime
 (when (boundp 'swank::*inspector-lookup-hooks*)
   (pushnew 'stefil-inspector-lookup-hook (symbol-value 'swank::*inspector-lookup-hooks*)))
 

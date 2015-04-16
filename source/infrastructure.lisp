@@ -683,9 +683,6 @@ This function is ideal for ASDF:TEST-OP's."
   ~A
 
 For more details run it from the REPL and use the customized Slime inspector
-to inspect the results (ASDF eats up the return values). Some inspector
-features may only be available when using the Slime branch at
-darcs get --lazy http://dwim.hu/darcs/hu.dwim.slime
-but the official Slime should also work fine.~%"
+to inspect the results (ASDF eats up the return values).~%"
             test-function result)
     result))
