@@ -46,7 +46,7 @@
 (define-condition assertion-failed (test-related-condition)
   ((failure-description :accessor failure-description-of :initarg :failure-description))
   (:report (lambda (c stream)
-             (format stream "Test assertion failed:~%~%")
+             (format stream "Test assertion failed~:[~:; (expected)~]:~%~%" *failures-and-errors-are-expected*)
              (describe (failure-description-of c) stream))))
 
 ;;;;;;
