@@ -50,7 +50,7 @@
   (assert (typep name '(or symbol test)) () "Suite names should be symbols or literal TEST instances instead of ~S" name)
   (etypecase name
     (symbol (find-test name :otherwise (lambda ()
-                                         (cerror "Create a new suite named ~A." "Unkown suite ~A." name)
+                                         (cerror "Create a new suite named ~A." "Unknown suite ~A." name)
                                          (eval `(defsuite ',name)))))
     (test name)))
 
