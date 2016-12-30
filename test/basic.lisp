@@ -4,7 +4,7 @@
 ;;;
 ;;; See LICENCE for details.
 
-(in-package :hu.dwim.stefil.test)
+(in-package :hu.dwim.stefil/test)
 
 (defsuite* (test :in root-suite :documentation "Stefil self tests"))
 
