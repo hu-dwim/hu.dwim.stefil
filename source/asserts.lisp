@@ -141,7 +141,7 @@
                        :failure-description description)
               (continue ()
                 :report (lambda (stream)
-                          (format stream "~@<Roger, go on testing...~@:>"))))))
+                          (format stream "~@<Roger, go on testing...~>"))))))
         (progn
           (describe description *debug-io*)
           (when *debug-on-assertion-failure* ; we have no *global-context*
@@ -149,7 +149,7 @@
                                  :failure-description description)
               (continue ()
                 :report (lambda (stream)
-                          (format stream "~@<Ignore the failure and continue~@:>")))))))))
+                          (format stream "~@<Ignore the failure and continue~>")))))))))
 
 (defmacro is (&whole whole_ form &optional (message nil message-p) &rest message-args)
   (multiple-value-bind (bindings expression message message-args)

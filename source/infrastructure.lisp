@@ -46,7 +46,7 @@
 (define-condition assertion-failed (test-related-condition)
   ((failure-description :accessor failure-description-of :initarg :failure-description))
   (:report (lambda (c stream)
-             (format stream "Test assertion failed~:[~:; (expected)~]:~%~%" *failures-and-errors-are-expected*)
+             (format stream "Test assertion failed~:[~; (expected)~]:~%~%" *failures-and-errors-are-expected*)
              (describe (failure-description-of c) stream))))
 
 ;;;;;;
@@ -320,24 +320,24 @@
                (setf (debug-on-assertion-failure-p *global-context*) nil)
                (continue))
               :report-function (lambda (stream)
-                                 (format stream "~@<Turn off debugging for this test session and invoke the first CONTINUE restart~@:>")))
+                                 (format stream "~@<Turn off debugging for this test session and invoke the first CONTINUE restart~>")))
             (continue-without-debugging-errors
              (lambda ()
                (setf (debug-on-unexpected-error-p *global-context*) nil)
                (continue))
               :report-function (lambda (stream)
-                                 (format stream "~@<Do not stop at unexpected errors for the rest of this test session and continue by invoking the first CONTINUE restart~@:>")))
+                                 (format stream "~@<Do not stop at unexpected errors for the rest of this test session and continue by invoking the first CONTINUE restart~>")))
             (continue-without-debugging-assertions
              (lambda ()
                (setf (debug-on-assertion-failure-p *global-context*) nil)
                (continue))
               :report-function (lambda (stream)
-                                 (format stream "~@<Do not stop at failed assertions for the rest of this test session and continue by invoking the first CONTINUE restart~@:>")))
+                                 (format stream "~@<Do not stop at failed assertions for the rest of this test session and continue by invoking the first CONTINUE restart~>")))
             (abort-testing
              (lambda ()
                (return-from restart-wrapper))
               :report-function (lambda (stream)
-                                 (format stream "~@<Abort the entire test session~@:>"))))
+                                 (format stream "~@<Abort the entire test session~>"))))
          (flet ((,with-toplevel-restarts/body ()
                   ,@body))
            (if (fboundp 'call-with-sldb-quit-restart)
@@ -360,7 +360,7 @@
   :chain-parents t)
 
 (defprint-object (self context :identity nil :type nil)
-  (format t "test-run ~@<(~S~{~^ ~S~})~@:>"
+  (format t "test-run ~@<(~S~{~^ ~S~})~>"
           (name-of (test-of self))
           (let* ((result (lambda-list-to-funcall-list (lambda-list-of (test-of self)))))
             (mapcar (lambda (arg-cell)
@@ -436,7 +436,7 @@
                    (warn "The following ~S block ran without any failures: ~S" 'with-expected-failures* ',whole))))
            (continue ()
              :report (lambda (stream)
-                       (format stream "~@<Skip the rest of the innermost WITH-EXPECTED-FAILURES body and continue by returning (values)~@:>"))
+                       (format stream "~@<Skip the rest of the innermost WITH-EXPECTED-FAILURES body and continue by returning (values)~>"))
              (values)))))))
 
 (defmacro with-expected-failures (&body body)
