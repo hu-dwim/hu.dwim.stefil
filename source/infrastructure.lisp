@@ -432,7 +432,8 @@
                      (return-from ,with-expected-failures-block (values)))))
                (multiple-value-prog1
                    (progn ,@body)
-                 (unless (< ,starting-failure-count (length (failure-descriptions-of *global-context*)))
+                 (when (and *failures-and-errors-are-expected*
+                            (not (< ,starting-failure-count (length (failure-descriptions-of *global-context*)))))
                    (warn "The following ~S block ran without any failures: ~S" 'with-expected-failures* ',whole))))
            (continue ()
              :report (lambda (stream)
