@@ -30,12 +30,3 @@
                 :components ((:file "package")
                              (:file "basic" :depends-on ("package"))
                              (:file "fixtures" :depends-on ("package" "basic"))))))
-
-(defsystem :hu.dwim.stefil/documentation
-  :defsystem-depends-on (:hu.dwim.asdf)
-  :class "hu.dwim.asdf:hu.dwim.documentation-system"
-  :depends-on (:hu.dwim.stefil.test
-               :hu.dwim.presentation)
-  :components ((:module "documentation"
-                :components ((:file "package")
-                             (:file "stefil" :depends-on ("package"))))))

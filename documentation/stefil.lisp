@@ -8,6 +8,9 @@
 
 (def project :hu.dwim.stefil)
 
+;;; This file is not loaded. It used to be part of the integrated documentation system in
+;;; hu.dwim.presentation, but to lower Stefil's dependencies it has been deintegrated from there.
+
 ;; some existing test protocols
 ;; http://testanything.org/
 ;; https://launchpad.net/subunit
