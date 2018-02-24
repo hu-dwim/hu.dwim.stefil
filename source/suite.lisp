@@ -6,6 +6,9 @@
 
 (in-package :hu.dwim.stefil)
 
+;; A SUITE is a TEST that has a default body that invokes all its subtests.
+;; IN-SUITE and *SUITE* is used to chain tests into a tree.
+
 (defun make-suite (name &rest args &key &allow-other-keys)
   (apply #'make-instance 'test :name name args))
 

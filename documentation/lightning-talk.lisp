@@ -2,7 +2,7 @@ test suite - specialized app (asserts)
 
 others:
 - too much "framework"-y stuff
-- test suites look much different than real applications
+- test suites look-and-feel different than real applications
 - why new abstractions? aren't DEFUN's good enough?
 
 stefil:

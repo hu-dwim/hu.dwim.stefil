@@ -7,6 +7,9 @@
 (in-package :hu.dwim.stefil)
 
 (defun extract-assert-expression-and-message (input-form)
+  "Look into the expression and try to extract a more descriptive failure message; e.g. in case of (= A B) bind A and B to a temp variable and print their values in case the assertion fails.
+
+Returns as values: (bindings expression message message-args)"
   (let* ((negatedp nil)
          (predicate)
          (arguments '()))
