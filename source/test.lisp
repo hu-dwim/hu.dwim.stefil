@@ -28,17 +28,19 @@
         (apply #'reinitialize-instance test args)
         (apply #'make-instance 'test :name name args))))
 
-(defgeneric get-test-lambda (test global-context)
-  (:method ((test test) (context global-context))
-    (multiple-value-bind (test-lambda found-p)
-        (gethash test (test-lambdas-of context))
-      (unless found-p
-        (setf test-lambda (let* ((*package* (package-of test))
-                                 (*readtable* (copy-readtable)))
-                            (compile nil `(lambda ,(lambda-list-of test)
-                                            ,@(body-of test)))))
-        (setf (gethash test (test-lambdas-of context)) test-lambda))
-      test-lambda)))
+(defun ensure-test-lambda (test context)
+  (check-type test test)
+  (check-type context global-context)
+  (multiple-value-bind
+        (test-lambda found-p)
+      (gethash test (test-lambdas-of context))
+    (unless found-p
+      (setf test-lambda (let* ((*package* (package-of test))
+                               (*readtable* (copy-readtable)))
+                          (compile nil `(lambda ,(lambda-list-of test)
+                                          ,@(body-of test)))))
+      (setf (gethash test (test-lambdas-of context)) test-lambda))
+    test-lambda))
 
 (defun call-with-test-handlers (function)
   ;; NOTE: the order of the bindings in this handler-bind is important
@@ -149,7 +151,7 @@
                                              ,@remaining-forms)))
                           (,body ()
                             ,(if compile-before-run
-                                 `(let* ((,test-lambda (get-test-lambda ,test ,global-context)))
+                                 `(let* ((,test-lambda (ensure-test-lambda ,test ,global-context)))
                                     (run-test-body ,test
                                                    (lambda ()
                                                      ;; TODO install a labels entry with the test name? to avoid compile at each recursion...
