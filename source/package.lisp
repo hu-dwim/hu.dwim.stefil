@@ -18,7 +18,6 @@
            #:finishes
            #:with-expected-failures
            #:with-expected-failures*
-           #:with-captured-lexical-environment
            #:in-suite
            #:root-suite
            #:defsuite

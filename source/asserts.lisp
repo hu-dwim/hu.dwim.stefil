@@ -226,27 +226,3 @@ Returns as values: (bindings expression message message-args)"
                            :form ,whole
                            :format-control "FINISHES block did not finish: ~S"
                            :format-arguments ,whole))))))
-
-(defmacro %compile-quoted (form)
-  `(compile nil '(lambda () ,form)))
-
-(defmacro with-captured-lexical-environment ((env-variable form &key (compiler '%compile-quoted)) &body code)
-  "Executes CODE with lexical environment captured at the point marked with the symbol -HERE-."
-  ;; Use private interned symbols to ensure that the body can be printed readably:
-  (let ((body '.with-captured-lexical-environment/body.)
-        (injector-macro '.with-captured-lexical-environment/injector-macro.))
-    `(let ((,body (lambda (,env-variable)
-                    ;; TODO: wrap the body in our handlers that will prevent the errors/failed-asserts reaching COMPILE
-                    ,@code)))
-       (declare (special ,body))        ; For the macrolet
-       (handler-bind
-           (#+sbcl(sb-ext:compiler-note #'muffle-warning)
-            (warning #'muffle-warning))
-         (,compiler
-          ,(subst `(macrolet ((,injector-macro (&environment env)
-                                (declare (special ,body))
-                                (funcall ,body env)
-                                (values)))
-                     (,injector-macro))
-                  '-here- form)))
-       (values))))
