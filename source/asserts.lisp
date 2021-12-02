@@ -208,21 +208,27 @@ Returns as values: (bindings expression message message-args)"
                  ,@body)
              (record/assertion-was-successful ,whole)))))))
 
-(defmacro finishes (&whole whole_ &body body)
+(defun %finishes (whole thunk)
+  (let ((success? nil))
+    (record/assertion-begins)
+    (unwind-protect
+         (restart-case
+             (multiple-value-prog1
+                 (funcall thunk)
+               (setf success? t)
+               (record/assertion-was-successful whole))
+           (continue ()
+             :report (lambda (stream)
+                       (format stream "~@<Roger, skip this FINISHES assert (this may very well confuse the rest of the test!)...~>"))
+             ;; to avoid recording one more failure for the FINISHES block not finishing
+             (setf success? t)))
+      (unless success?
+        ;; TODO painfully broken: when we don't finish due to a restart, then we don't want this here to be triggered...
+        (record/failure 'failed-assertion
+                        :form whole
+                        :format-control "FINISHES block did not finish: ~S"
+                        :format-arguments (list whole))))))
+
+(defmacro finishes (&whole whole &body body)
   ;; could be `(not-signals t ,@body), but that would register a confusing failed-assertion
-  (with-unique-names (success? whole)
-    `(let ((,success? nil)
-           (,whole ',whole_))
-       (record/assertion-begins)
-       (unwind-protect
-            (multiple-value-prog1
-                (progn
-                  ,@body)
-              (setf ,success? t)
-              (record/assertion-was-successful ,whole))
-         (unless ,success?
-           ;; TODO painfully broken: when we don't finish due to a restart, then we don't want this here to be triggered...
-           (record/failure 'failed-assertion
-                           :form ,whole
-                           :format-control "FINISHES block did not finish: ~S"
-                           :format-arguments ,whole))))))
+  `(%finishes ',whole (lambda () ,@body)))
