@@ -26,7 +26,6 @@
            #:-run-child-tests-
            #:defixture
            #:-body-
-           #:-here-
            #:with-fixture
            #:with-fixtures
            #:runs-without-failure?
