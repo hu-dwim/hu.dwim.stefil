@@ -1,0 +1,42 @@
+# -*- mode: org; coding: utf-8-unix; fill-column: 80 -*-
+
+* What
+
+Stefil os a very thin Common Lisp testing "framework" where tests are
+simply augmented `defun`'s, coupled with a smarter `ASSERT` macro
+(called `IS`). Unexpected situations are integrated into the condition
+system with additional restarts.
+
+* Status
+
+It's a mature project that has been exercised a lot.
+
+It's not that there's no room left for improvements, though, but
+development has stalled for years.
+
+Stefil was the pioneer of this kind of testing anti-frameworks, but I
+think there are better alternatives today. See below.
+
+* Where
+
+The project's [[https://github.com/hu-dwim/hu.dwim.stefil][Github page]] is the primary communication channel.
+
+* Why
+
+The normal CL development workflow with Slime is excellent, and I saw
+no reason for all the preexisting testing frameworks interfering with
+it.
+
+* Alternatives
+** [Try](https://github.com/melisgl/try)
+After a cursory look `Try` seems to be a much more thorough
+implementation of the same idea.
+
+Greetings to Gábor Melis! :)
+** Fiasco
+Fiasco is a friendly fork: https://github.com/capitaomorte/fiasco
+Here's the pre-fork discussion: https://github.com/luismbo/stefil/issues/9
+
+> in short: at this time i (attila) am not working actively on
+> hu.dwim.stefil, and IIRC the proposed changes were too divergent, so
+> we agreed to fork off fiasco from hu.dwim.stefil.
