@@ -29,15 +29,17 @@ with it.
 
 * Alternatives
 ** Try
-After a cursory look /[[https://github.com/melisgl/try][Try]]/ seems to be a more thorough
+After a cursory look /[[https://github.com/melisgl/try][Try]]/ seems to be a more thorough and more recent
 implementation of the same idea.
 
 Hat tip to Gábor Melis!
 ** Fiasco
-[[https://github.com/capitaomorte/fiasco][Fiasco]] is a friendly fork.
+[[https://github.com/capitaomorte/fiasco][Fiasco]] is a friendly fork that happened back in 2014.
 
 Here's the pre-fork discussion: https://github.com/luismbo/stefil/issues/9
 
-> in short: at this time i (attila) am not working actively on
-> hu.dwim.stefil, and IIRC the proposed changes were too divergent, so
-> we agreed to fork off fiasco from hu.dwim.stefil.
+#+BEGIN_QUOTE
+in short: at this time i (attila) am not working actively on
+hu.dwim.stefil, and IIRC the proposed changes were too divergent, so
+we agreed to fork off fiasco from hu.dwim.stefil.
+#+END_QUOTE
