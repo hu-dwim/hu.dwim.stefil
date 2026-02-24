@@ -674,6 +674,7 @@
 
 (defun funcall-test-with-feedback-message (test-function &rest args)
   "Run the given test non-interactively and print the results to *standard-output*.
+Signal a single error at the end if there were any unexpected failures.
 This function is ideal for ASDF:TEST-OP's."
   (let* ((*test-run-standard-output* (make-broadcast-stream))
          (result (without-debugging (apply test-function args)))
@@ -686,4 +687,13 @@ This function is ideal for ASDF:TEST-OP's."
 For more details run it from the REPL and use the customized Slime inspector
 to inspect the results (ASDF eats up the return values).~%"
             test-function result)
+    (destructuring-bind (&key number-of-tests-run number-of-assertions
+                           number-of-failures number-of-failed-assertions
+                           number-of-unexpected-errors number-of-expected-failures
+                         &allow-other-keys)
+        (extract-test-run-statistics result)
+      (unless (and (zerop number-of-unexpected-errors)
+                   (= number-of-expected-failures number-of-failures))
+        (error "FUNCALL-TEST-WITH-FEEDBACK-MESSAGE is signalling that ~S ran with some unexpected errors: ~A"
+               test-function result)))
     result))
